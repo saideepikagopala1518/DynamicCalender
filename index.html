@@ -5,8 +5,73 @@
 <head>
 	<meta charset="utf-8">
 	<title>Event Calendar</title>
+	<link rel="stylesheet" href="css/calendar.css" media="screen">
+	<style type="text/css">body{background:url(img/bg.png) repeat;width:960px;margin:0 auto}.footer{margin-top:100px;text-align:center;color:#666;font:bold 14px Arial}.footer a{color:#999;text-decoration:none}#wrapper{padding: 50px 0 0 325px;}#calendar{margin:25px auto; width: 370px;}</style>
+	<style>
+		.ui-datepicker-weekday{
+			background: lightgreen;
+		}
+		.ui-datepicker-weekend{
+			background: yellow;
+		}
+		.highlight{
+			background-color:orange;	
+		}
+		.ui-datepicker-other-month {
+    		background: grey;    
+		}
+	</style>	
 </head>
 <body>
+	<div id="calendar"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="js/jquery-ui-datepicker.min.js"></script>
+
+<script>
+	var myObj = [];
 	
+		$.getJSON('https://holidayapi.com/v1/holidays?key=0d702cbe-c391-4e38-a43c-49bf64d9172b&country=US&year=2008&month=1', function(data) {
+			var i, x = ' ';
+			function convertDate(dateString) {
+				var p = dateString.split(/\D/g);
+				return [p[2],p[1],p[0] ].join("-");
+			}
+		  	for (i in data.holidays) {				
+            	myObj.push(convertDate(data.holidays[i].date).replace(/\b0/g, ''));
+            	
+          	}
+          	console.log(myObj);
+          	
+        });
+		$('#calendar').datepicker({
+			inline: true,
+			firstDay: 0,
+			showOtherMonths: false,
+			changeYear: true,
+			changeMonth: true,
+			dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+			beforeShowDay: specialDays
+    	});
+			function specialDays(date) {
+				var month = date.getMonth()+1;
+				var year = date.getFullYear();
+				var day = date.getDate();				
+				var newdate = day+"-"+month+'-'+year;
+				var tooltip_text = "Event On" + newdate;
+				if(jQuery.inArray(newdate, myObj) != -1){
+					return [false, "highlight", tooltip_text ];
+				} else {
+					return weekdaysend(date);
+				}
+			}
+			function weekdaysend(date) {
+				var day = date.getDay();
+				if(day == 0 || day == 6) {
+					return [true, 'ui-datepicker-weekend'];
+				} else {
+					return [true, 'ui-datepicker-weekday'];
+				}
+			}		
+</script>
 </body>
 </html>
