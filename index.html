@@ -20,6 +20,10 @@
 		.ui-datepicker-other-month {
     		background: grey;    
 		}
+		.ui-datepicker-illegal{
+			background: grey;
+
+		}
 	</style>	
 </head>
 <body>
@@ -27,12 +31,13 @@
 		Start Date: <input type="date" name="date" id="date">
 		Number of Days: <input type="days" name="days" id="days">
 		Country Code: <input type="text" name="countrycode" id="countrycode">
-		<input type="submit" name="submit" value="submit" onclick="getJsonData()">
+		
 	</form>
 	<br><br>
 	<div id="calendar"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="js/jquery-ui-datepicker.min.js"></script>
+<script src="js/moment.js"></script>
 
 <script>
 	var myObj = [];
@@ -76,12 +81,24 @@
 				}
 			}
 			function weekdaysend(date) {
+				var x = document.getElementById("date").value;
+				var sdate = new Date(x);
+				console.log(sdate);
+				
 				var day = date.getDay();
-				if(day == 0 || day == 6) {
+				if(date<sdate){
+				 	return[false,'ui-datepicker-other-month'];
+				 }  
+				 else{
+				 	if(day == 0 || day == 6) {
 					return [true, 'ui-datepicker-weekend'];
 				} else {
 					return [true, 'ui-datepicker-weekday'];
-				}
+				
+				
+				    }
+
+				 } 
 			}		
 </script>
 </body>
