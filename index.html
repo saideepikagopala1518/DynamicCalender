@@ -23,6 +23,13 @@
 	</style>	
 </head>
 <body>
+	<form id="inputdata">
+		Start Date: <input type="date" name="date" id="date">
+		Number of Days: <input type="days" name="days" id="days">
+		Country Code: <input type="text" name="countrycode" id="countrycode">
+		<input type="submit" name="submit" value="submit" onclick="getJsonData()">
+	</form>
+	<br><br>
 	<div id="calendar"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="js/jquery-ui-datepicker.min.js"></script>
