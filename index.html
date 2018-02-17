@@ -29,7 +29,7 @@
 
 <script>
 	var myObj = [];
-	
+	var holidayinfo = [];
 		$.getJSON('https://holidayapi.com/v1/holidays?key=0d702cbe-c391-4e38-a43c-49bf64d9172b&country=US&year=2008&month=1', function(data) {
 			var i, x = ' ';
 			function convertDate(dateString) {
@@ -38,10 +38,11 @@
 			}
 		  	for (i in data.holidays) {				
             	myObj.push(convertDate(data.holidays[i].date).replace(/\b0/g, ''));
+            	holidayinfo.push(data.holidays[i].name);
             	
           	}
           	console.log(myObj);
-          	
+          	console.log(holidayinfo);
         });
 		$('#calendar').datepicker({
 			inline: true,
@@ -57,7 +58,10 @@
 				var year = date.getFullYear();
 				var day = date.getDate();				
 				var newdate = day+"-"+month+'-'+year;
-				var tooltip_text = "Event On" + newdate;
+				var index = myObj.indexOf(newdate);
+				//console.log(index);
+				var tooltip_text = holidayinfo[index] + " on "+newdate;
+				
 				if(jQuery.inArray(newdate, myObj) != -1){
 					return [false, "highlight", tooltip_text ];
 				} else {
