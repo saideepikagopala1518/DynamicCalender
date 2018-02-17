@@ -84,11 +84,23 @@
 				var x = document.getElementById("date").value;
 				var sdate = new Date(x);
 				console.log(sdate);
-				
+				var month1 = date.getMonth();
+				var num = parseInt(document.getElementById("days").value);
+				var enddate = new Date(x);
+				var month2 = enddate.getMonth();
+				enddate.setDate(enddate.getDate() + num);
+				console.log(enddate);
+
 				var day = date.getDay();
+
 				if(date<sdate){
-				 	return[false,'ui-datepicker-other-month'];
-				 }  
+					
+						return[false,'ui-datepicker-other-month'];
+					
+
+					}
+				 	
+				   
 				 else{
 				 	if(day == 0 || day == 6) {
 					return [true, 'ui-datepicker-weekend'];
